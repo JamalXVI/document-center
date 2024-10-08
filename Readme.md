@@ -7,12 +7,21 @@ The **Academic Documentation Center** is a web-based application designed to man
 - **Document Management**: Upload, categorize, and manage documents, including metadata such as author, department, and publication date.
 - **API Access**: RESTful API for integration with other systems and programmatic access to document data.
 - **Scalable and Flexible**: Uses MongoDB to handle diverse document types and metadata.
+- **Front-End**: A simple Svelte front-end for interacting with the API.
 
 ## Technologies Used
 - **FastAPI**: A modern, high-performance web framework for building APIs with Python.
 - **MongoDB**: A NoSQL database to handle non-relational and flexible data structures.
 - **Uvicorn**: ASGI server to run the FastAPI application.
 - **Docker**: Used to containerize the application and database for easy setup and deployment.
+- **Svelte**: Front-end framework used to create a user-friendly interface.
+
+## Environment Variables
+
+| Variable       | Description                                   | Default Value               |
+|----------------|-----------------------------------------------|-----------------------------|
+| `MONGO_URL`    | The URL for connecting to the MongoDB server. | `mongodb://localhost:27017` |
+| `NODE_ENV`     | The environment mode for the front-end.       | `development`               |
 
 ## Installation
 
@@ -52,15 +61,19 @@ The **Academic Documentation Center** is a web-based application designed to man
 
 2. Access the application at [http://localhost:8000](http://localhost:8000).
 
+3. Access the front-end at [http://localhost:5000](http://localhost:5000).
+
 ## Project Structure
-- **Docker Compose**: The project uses `docker-compose.yml` to orchestrate the MongoDB and FastAPI services, ensuring a smooth setup for development.
+- **Docker Compose**: The project uses `docker-compose.yml` to orchestrate the MongoDB, FastAPI, and Svelte services, ensuring a smooth setup for development.
 - **MongoDB Volume**: MongoDB data is persisted in a local folder (`./data/mongo`) to ensure data durability.
 - **App Directory**: Contains all the core logic of the application, including API routes and models.
   - **`app/routes/`**: Defines the endpoints for users and documents.
-  - **`app/models/`**: Will be used to define database models in the future.
+  - **`app/models/`**: Defines database models.
   - **`app/database/`**: Manages database connections and operations.
   - **`main.py`**: Entry point for the application.
   - **`__init__.py`**: Indicates that `app/` is a Python package.
+- **Front Directory**: Contains the Svelte front-end application.
+  - **`front/`**: Front-end code to interact with the API and provide a user-friendly interface.
 
 ## API Endpoints
 - **POST /users/**: Create a new user.

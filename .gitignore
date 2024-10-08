@@ -35,3 +35,16 @@ Thumbs.db
 
 # Secrets
 .env
+
+# Node modules
+node_modules/
+
+# Build artifacts
+front/build/
+package-lock.json
+
+# Docker
+*.dockerignore
+docker-compose.override.yml
+# Svelte specific
+front/public/build/
