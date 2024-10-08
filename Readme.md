@@ -12,6 +12,7 @@ The **Academic Documentation Center** is a web-based application designed to man
 - **FastAPI**: A modern, high-performance web framework for building APIs with Python.
 - **MongoDB**: A NoSQL database to handle non-relational and flexible data structures.
 - **Uvicorn**: ASGI server to run the FastAPI application.
+- **Docker**: Used to containerize the application and database for easy setup and deployment.
 
 ## Installation
 
@@ -32,7 +33,7 @@ The **Academic Documentation Center** is a web-based application designed to man
    pip install -r requirements.txt
    ```
 
-4. Set up environment variables for MongoDB:
+4. Set up environment variables for MongoDB (if not using Docker):
    ```bash
    export MONGO_URL="mongodb://localhost:27017"
    ```
@@ -42,10 +43,23 @@ The **Academic Documentation Center** is a web-based application designed to man
    uvicorn main:app --reload
    ```
 
+## Running with Docker
+
+1. Build and run the services using Docker Compose:
+   ```bash
+   docker-compose up --build
+   ```
+
+2. Access the application at [http://localhost:8000](http://localhost:8000).
+
 ## API Endpoints
 - **POST /users/**: Create a new user.
 - **POST /documents/**: Upload a new document.
 - **GET /documents/**: Retrieve all documents.
+
+## Project Structure
+- **Docker Compose**: The project uses `docker-compose.yml` to orchestrate the MongoDB and FastAPI services, ensuring a smooth setup for development.
+- **MongoDB Volume**: MongoDB data is persisted in a local folder (`./data/mongo`) to ensure data durability.
 
 ## Contributing
 Contributions are welcome! Please feel free to submit a Pull Request.
