@@ -1,26 +1,20 @@
-from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel
+# app/routes/documents.py
+
+from fastapi import APIRouter, HTTPException, Depends, Query
 from typing import Optional, List
+from app.models.document import Document
+from app.database.database import get_database
+from motor.motor_asyncio import AsyncIOMotorDatabase
 
 router = APIRouter()
 
-class Document(BaseModel):
-    title: str
-    description: Optional[str]
-    author: Optional[str]
-    department: Optional[str]
-    publication_date: Optional[str]
-    document_type: str
-    file_path: str
-    created_by: Optional[int]
-
-@router.post("/documents/")
-async def create_document(document: Document):
+@router.post("/documents/", response_model=Document)
+async def create_document(document: Document, db: AsyncIOMotorDatabase = Depends(get_database)):
     document_data = document.dict()
     await db["documents"].insert_one(document_data)
     return document
 
 @router.get("/documents/", response_model=List[Document])
-async def get_documents():
-    documents = await db["documents"].find().to_list(100)
+async def get_documents(skip: int = Query(0, ge=0), limit: int = Query(10, ge=1), db: AsyncIOMotorDatabase = Depends(get_database)):
+    documents = await db["documents"].find().skip(skip).limit(limit).to_list(limit)
     return documents
