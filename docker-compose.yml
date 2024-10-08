@@ -11,6 +11,8 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: password
+    networks:
+      - academic_net
 
   app:
     build: .
@@ -22,6 +24,8 @@ services:
     env_file:
       - .env
     command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+    networks:
+      - academic_net
 
   init_admin_user:
     image: node:16-alpine
@@ -29,9 +33,11 @@ services:
     volumes:
       - ./mongo-init:/usr/src/app
     working_dir: /usr/src/app
-    command: ["node", "init-user.js"]
+    command: ["/bin/sh", "-c", "npm install bcrypt && node init-user.js"]
     depends_on:
       - mongodb
+    networks:
+      - academic_net
 
 volumes:
   mongo_data:
@@ -40,3 +46,6 @@ volumes:
       type: "none"
       o: "bind"
       device: "./data/mongo"
+
+networks:
+  academic_net:

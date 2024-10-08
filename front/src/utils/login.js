@@ -1,5 +1,5 @@
 // Utility for handling user login
-import { isLoggedIn } from '../stores';
+import { isLoggedIn, toast } from '../stores';
 
 export async function handleLogin(username, password) {
   try {
@@ -13,11 +13,11 @@ export async function handleLogin(username, password) {
       isLoggedIn.set(true);
       return true;
     } else {
-      console.error('Failed to log in');
+      toast.set({ show: true, message: 'Failed to log in' });
       return false;
     }
   } catch (error) {
-    console.error('Error logging in:', error);
+    toast.set({ show: true, message: 'Error logging in' });
     return false;
   }
 }

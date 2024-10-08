@@ -7,15 +7,15 @@ WORKDIR /app
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the backend code
-COPY . .
-
-# Install Node.js for the front-end
+# Install Node.js and npm for the front-end
 RUN apt-get update && \
     apt-get install -y curl && \
-    curl -fsSL https://deb.nodesource.com/setup_16.x | bash - && \
+    curl -fsSL https://deb.nodesource.com/setup_current.x | bash - && \
     apt-get install -y nodejs && \
     npm install -g npm@latest
+
+# Copy the backend code
+COPY . .
 
 # Set working directory for the front-end
 WORKDIR /app/front
