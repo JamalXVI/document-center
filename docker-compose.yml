@@ -19,8 +19,8 @@ services:
       - "8000:8000"
     depends_on:
       - mongodb
-    environment:
-      MONGO_URL: "mongodb://admin:password@mongodb:27017"
+    env_file:
+      - .env
     command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
 
 volumes:
