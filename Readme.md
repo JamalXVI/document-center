@@ -52,14 +52,20 @@ The **Academic Documentation Center** is a web-based application designed to man
 
 2. Access the application at [http://localhost:8000](http://localhost:8000).
 
+## Project Structure
+- **Docker Compose**: The project uses `docker-compose.yml` to orchestrate the MongoDB and FastAPI services, ensuring a smooth setup for development.
+- **MongoDB Volume**: MongoDB data is persisted in a local folder (`./data/mongo`) to ensure data durability.
+- **App Directory**: Contains all the core logic of the application, including API routes and models.
+  - **`app/routes/`**: Defines the endpoints for users and documents.
+  - **`app/models/`**: Will be used to define database models in the future.
+  - **`app/database/`**: Manages database connections and operations.
+  - **`main.py`**: Entry point for the application.
+  - **`__init__.py`**: Indicates that `app/` is a Python package.
+
 ## API Endpoints
 - **POST /users/**: Create a new user.
 - **POST /documents/**: Upload a new document.
 - **GET /documents/**: Retrieve all documents.
-
-## Project Structure
-- **Docker Compose**: The project uses `docker-compose.yml` to orchestrate the MongoDB and FastAPI services, ensuring a smooth setup for development.
-- **MongoDB Volume**: MongoDB data is persisted in a local folder (`./data/mongo`) to ensure data durability.
 
 ## Contributing
 Contributions are welcome! Please feel free to submit a Pull Request.
