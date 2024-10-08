@@ -16,9 +16,11 @@
     "rollup-plugin-css-only": "^4.3.0",
     "rollup-plugin-livereload": "^2.0.0",
     "rollup-plugin-svelte": "^7.1.2",
-    "svelte": "^3.55.0"
+    "svelte": "^3.55.0",
+    "svelte-material-ui": "^7.0.0"
   },
   "dependencies": {
+    "bulma": "^1.0.2",
     "sirv-cli": "^2.0.0"
   }
 }

@@ -7,7 +7,7 @@ The **Academic Documentation Center** is a web-based application designed to man
 - **Document Management**: Upload, categorize, and manage documents, including metadata such as author, department, and publication date.
 - **API Access**: RESTful API for integration with other systems and programmatic access to document data.
 - **Scalable and Flexible**: Uses MongoDB to handle diverse document types and metadata.
-- **Front-End**: A simple Svelte front-end for interacting with the API.
+- **Front-End**: A simple Svelte front-end for interacting with the API, styled with Bulma for a clean and modern look.
 
 ## Technologies Used
 - **FastAPI**: A modern, high-performance web framework for building APIs with Python.
@@ -15,6 +15,7 @@ The **Academic Documentation Center** is a web-based application designed to man
 - **Uvicorn**: ASGI server to run the FastAPI application.
 - **Docker**: Used to containerize the application and database for easy setup and deployment.
 - **Svelte**: Front-end framework used to create a user-friendly interface.
+- **Bulma**: A modern CSS framework used to style the front-end, providing a clean and responsive design.
 
 ## Environment Variables
 
@@ -73,7 +74,7 @@ The **Academic Documentation Center** is a web-based application designed to man
   - **`main.py`**: Entry point for the application.
   - **`__init__.py`**: Indicates that `app/` is a Python package.
 - **Front Directory**: Contains the Svelte front-end application.
-  - **`front/`**: Front-end code to interact with the API and provide a user-friendly interface.
+  - **`front/`**: Front-end code to interact with the API and provide a user-friendly interface, using Bulma for styling.
 
 ## API Endpoints
 - **POST /users/**: Create a new user.
