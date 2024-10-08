@@ -1,27 +1,16 @@
 <script>
-    import { isLoggedIn } from '../stores';
     import { writable } from 'svelte/store';
+    import { isLoggedIn } from '../stores';
+    import { handleLogin } from '../utils/login';
   
     let showLoginModal = writable(false);
     let username = '';
     let password = '';
   
-    async function handleLogin() {
-      try {
-        const response = await fetch('http://localhost:8000/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ username, password })
-        });
-  
-        if (response.ok) {
-          isLoggedIn.set(true);
-          showLoginModal.set(false);
-        } else {
-          console.error('Failed to log in');
-        }
-      } catch (error) {
-        console.error('Error logging in:', error);
+    async function login() {
+      const success = await handleLogin(username, password);
+      if (success) {
+        showLoginModal.set(false);
       }
     }
   </script>
@@ -39,7 +28,8 @@
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     }
   
-    .navbar-item:hover .login-modal {
+    .navbar-item:hover .login-modal,
+    .navbar-item:focus-within .login-modal {
       display: block;
     }
   </style>
@@ -53,10 +43,14 @@
   
     <div id="navbarBasicExample" class="navbar-menu">
       <div class="navbar-end">
-        <div class="navbar-item" on:mouseover={() => showLoginModal.set(true)} on:mouseleave={() => showLoginModal.set(false)}>
+        <div class="navbar-item"
+             on:mouseover={() => showLoginModal.set(true)}
+             on:mouseleave={() => showLoginModal.set(false)}
+             on:focus={() => showLoginModal.set(true)}
+             on:blur={() => showLoginModal.set(false)}>
           <div class="buttons">
             {#if !$isLoggedIn}
-              <a class="button is-primary">
+              <a class="button is-primary" tabindex="0">
                 <strong>Login</strong>
               </a>
               <div class="login-modal">
@@ -75,7 +69,7 @@
                 </div>
   
                 <div class="control">
-                  <button class="button is-link" on:click={handleLogin}>Login</button>
+                  <button class="button is-link" on:click={login}>Login</button>
                 </div>
               </div>
             {/if}
@@ -83,4 +77,5 @@
         </div>
       </div>
     </div>
-  </nav>  
+  </nav>
+  
