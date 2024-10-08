@@ -1,15 +1,22 @@
-from fastapi import FastAPI
-from motor.motor_asyncio import AsyncIOMotorClient
-from app.routes import users, documents
-import os
+import asyncio
+from app.database.database import get_database
+from app.models.user import User
+from passlib.context import CryptContext
 
-app = FastAPI()
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-# MongoDB connection setup
-MONGO_URL = os.getenv("MONGO_URL", "mongodb://localhost:27017")
-client = AsyncIOMotorClient(MONGO_URL)
-db = client["AcademicDocumentationCenter"]
+async def create_default_admin():
+    db = await get_database()
+    existing_admin = await db["users"].find_one({"username": "admin"})
+    if not existing_admin:
+        default_admin = {
+            "username": "admin",
+            "password_hash": pwd_context.hash("admin"),
+            "role": "admin"
+        }
+        await db["users"].insert_one(default_admin)
 
-# Include the routers for different resources
-app.include_router(users.router)
-app.include_router(documents.router)
+# Run the create_default_admin function at startup
+@app.on_event("startup")
+async def startup_event():
+    await create_default_admin()

@@ -8,7 +8,6 @@ services:
       - "27017:27017"
     volumes:
       - mongo_data:/data/db
-      - ./mongo-init:/docker-entrypoint-initdb.d
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: password
@@ -23,6 +22,16 @@ services:
     env_file:
       - .env
     command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+
+  init_admin_user:
+    image: node:16-alpine
+    container_name: init_admin_user
+    volumes:
+      - ./mongo-init:/usr/src/app
+    working_dir: /usr/src/app
+    command: ["node", "init-user.js"]
+    depends_on:
+      - mongodb
 
 volumes:
   mongo_data:
