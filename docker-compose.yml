@@ -19,13 +19,14 @@ services:
     container_name: academic_docs_app
     ports:
       - "8000:8000"
+    volumes:
+      - .:/app
+      - npm_cache:/app/.npm-cache
     depends_on:
       - mongodb
     env_file:
       - .env
     command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
-    networks:
-      - academic_net
 
   init_admin_user:
     image: node:16-alpine
@@ -46,6 +47,7 @@ volumes:
       type: "none"
       o: "bind"
       device: "./data/mongo"
+  npm_cache:
 
 networks:
   academic_net:

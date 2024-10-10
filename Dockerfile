@@ -14,17 +14,26 @@ RUN apt-get update && \
     apt-get install -y nodejs && \
     npm install -g npm@latest
 
-# Copy the backend code
-COPY . .
-
 # Set working directory for the front-end
 WORKDIR /app/front
 
-# Install front-end dependencies and build the front-end
-RUN npm install && npm run build
+# Copy package.json first to leverage Docker cache
+COPY front/package.json ./
+
+# Install front-end dependencies
+RUN npm install --verbose
+
+# Copy the rest of the front-end code
+COPY front/ .
+
+# Build the front-end
+RUN npm run build --verbose
 
 # Set working directory back to the backend
 WORKDIR /app
+
+# Copy the backend code
+COPY . .
 
 # Command to run the FastAPI backend
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
